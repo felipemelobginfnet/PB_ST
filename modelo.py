@@ -109,10 +109,9 @@ st.write(f'Raiz do Erro Quadrático Médio (RMSE): {rmse:.2f}')
 st.write(f'Erro Absoluto Médio (MAE): {mae:.2f}')
 
 fig_resultado, ax_resultado = plt.subplots()
-ax_resultado.scatter(y_teste, previsoes)
-ax_resultado.plot([min(y_teste), max(y_teste)], [min(y_teste), max(y_teste)], linestyle='--', color='red', linewidth=1)
-"""esta linha serve para mostrar onde os valores reais e os valores das previsões
-do modelo são iguais, ou seja, erros iguais ou tendendo à zero"""
+ax_resultado.scatter(y_teste, previsoes, label= 'Valores Reais')
+ax_resultado.plot([min(y_teste), max(y_teste)], [min(y_teste), max(y_teste)], linestyle='--', color='red', linewidth=1, label= 'Linha de erro 0')
+ax_resultado.legend()
 ax_resultado.set_xlabel('Valores Reais')
 ax_resultado.set_ylabel('Previsões do Modelo')
 ax_resultado.set_title('Comparação entre Valores Reais e Previsões')
