@@ -1,4 +1,3 @@
-%%writefile modelo.py
 import pandas as pd
 import matplotlib.pyplot as plt
 pd.options.display.float_format = '{:.2f}'.format
