@@ -1,3 +1,4 @@
+%%writefile modelo.py
 import pandas as pd
 import matplotlib.pyplot as plt
 pd.options.display.float_format = '{:.2f}'.format
@@ -7,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import streamlit as st
+import numpy as np
 
 df = pd.read_csv('Clean Data_pakwheels.csv', sep=',')
 df = df.drop(df.columns[0], axis=1)
@@ -69,7 +71,7 @@ st.pyplot(fig_corr.fig)
 
 df_escalonado = df_filtrado.copy()
 scaler = StandardScaler()
-df_escalonado['Price'] = scaler.fit_transform(df_escalonado[['Price']])
+df_escalonado['Price'] = np.log1p(df_escalonado['Price'])
 df_escalonado['Mileage'] = scaler.fit_transform(df_escalonado[['Mileage']])
 df_escalonado['Engine Capacity'] = scaler.fit_transform(df_escalonado[['Engine Capacity']])
 
@@ -106,6 +108,16 @@ st.subheader("Métricas do Modelo")
 st.write(f'Erro Quadrático Médio (MSE): {mse:.2f}')
 st.write(f'Raiz do Erro Quadrático Médio (RMSE): {rmse:.2f}')
 st.write(f'Erro Absoluto Médio (MAE): {mae:.2f}')
+
+fig_resultado, ax_resultado = plt.subplots()
+ax_resultado.scatter(y_teste, previsoes)
+ax_resultado.plot([min(y_teste), max(y_teste)], [min(y_teste), max(y_teste)], linestyle='--', color='red', linewidth=1)
+"""esta linha serve para mostrar onde os valores reais e os valores das previsões
+do modelo são iguais, ou seja, erros iguais ou tendendo à zero"""
+ax_resultado.set_xlabel('Valores Reais')
+ax_resultado.set_ylabel('Previsões do Modelo')
+ax_resultado.set_title('Comparação entre Valores Reais e Previsões')
+st.pyplot(fig_resultado)
 
 
 
